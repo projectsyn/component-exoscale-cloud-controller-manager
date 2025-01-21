@@ -1,3 +1,6 @@
 # Overwrite parameters here
 
-# parameters: {...}
+parameters:
+  facts:
+    cloud: exoscale
+    region: ch-gva-2
