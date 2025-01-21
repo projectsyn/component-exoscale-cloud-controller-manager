@@ -1,0 +1,5 @@
+= exoscale-cloud-controller-manager
+
+exoscale-cloud-controller-manager is a Commodore component to manage exoscale-cloud-controller-manager.
+
+See the xref:references/parameters.adoc[parameters] reference for further details.

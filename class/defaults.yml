@@ -1,0 +1,5 @@
+parameters:
+  exoscale_cloud_controller_manager:
+    =_metadata:
+      multi_tenant: true
+    namespace: syn-exoscale-cloud-controller-manager
