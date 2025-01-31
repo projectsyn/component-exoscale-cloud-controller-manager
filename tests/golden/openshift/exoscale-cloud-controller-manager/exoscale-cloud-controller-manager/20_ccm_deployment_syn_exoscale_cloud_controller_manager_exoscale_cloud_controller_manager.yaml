@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: exoscale-cloud-controller-manager
+  name: exoscale-cloud-controller-manager
+  namespace: syn-exoscale-cloud-controller-manager
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: exoscale-cloud-controller-manager
+  template:
+    metadata:
+      labels:
+        app: exoscale-cloud-controller-manager
+    spec:
+      containers:
+        - args:
+            - --leader-elect=true
+            - --allow-untagged-cloud
+          env:
+            - name: EXOSCALE_ZONE
+              valueFrom:
+                secretKeyRef:
+                  key: api-zone
+                  name: exoscale-credentials
+            - name: EXOSCALE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: api-key
+                  name: exoscale-credentials
+            - name: EXOSCALE_API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: api-secret
+                  name: exoscale-credentials
+          image: exoscale/cloud-controller-manager:latest
+          imagePullPolicy: Always
+          name: exoscale-cloud-controller-manager
+      dnsPolicy: Default
+      hostNetwork: true
+      serviceAccountName: cloud-controller-manager
+      tolerations:
+        - effect: NoSchedule
+          key: node.cloudprovider.kubernetes.io/uninitialized
+          value: 'true'
+        - key: CriticalAddonsOnly
+          operator: Exists
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/master

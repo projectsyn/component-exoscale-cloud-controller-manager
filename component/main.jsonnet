@@ -4,6 +4,9 @@ local inv = kap.inventory();
 local base_directory = inv.parameters._base_directory;
 local params = inv.parameters.exoscale_cloud_controller_manager;
 
+local isOpenShift =
+  std.member([ 'openshift4', 'oke' ], inv.parameters.facts.distribution);
+
 local rbac_manifests =
   std.parseYaml(kap.yaml_load_stream('%s/manifests/%s/rbac.yml' % [
     base_directory,
@@ -51,6 +54,30 @@ local rbac = [
   for obj in rbac_manifests
 ];
 
+local customRBAC = if isOpenShift then
+  [
+    kube.RoleBinding('ccm-hostnetwork') {
+      metadata+: {
+        // Required if we want to deploy this manifest during cluster
+        // bootstrap.
+        namespace: params.namespace,
+      },
+      roleRef_: kube.ClusterRole('system:openshift:scc:hostnetwork'),
+      subjects: [
+        {
+          kind: 'ServiceAccount',
+          name: std.filter(
+            function(obj) obj.kind == 'Deployment', ccm_manifests
+          )[0].spec.template.spec.serviceAccountName,
+          namespace: params.namespace,
+        },
+      ],
+    },
+  ]
+else
+  [];
+
+
 local ccm = [
   patchNamespace(obj)
   for obj in ccm_manifests
@@ -83,7 +110,7 @@ local objKey(prefix, obj) =
   '01_secret': secret,
 } + {
   [objKey('10_rbac', obj)]: obj
-  for obj in rbac
+  for obj in rbac + customRBAC
 } + {
   [objKey('20_ccm', obj)]: obj
   for obj in ccm

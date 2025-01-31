@@ -7,7 +7,7 @@
       "name": "exoscale-cloud-controller-manager",
       "slug": "exoscale-cloud-controller-manager",
       "parameter_key": "exoscale_cloud_controller_manager",
-      "test_cases": "defaults",
+      "test_cases": "defaults openshift",
       "add_lib": "n",
       "add_pp": "n",
       "add_golden": "y",
