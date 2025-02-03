@@ -49,3 +49,4 @@ spec:
           operator: Exists
         - effect: NoSchedule
           key: node-role.kubernetes.io/master
+        - key: node.kubernetes.io/not-ready

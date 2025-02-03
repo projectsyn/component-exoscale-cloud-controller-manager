@@ -79,7 +79,21 @@ else
 
 
 local ccm = [
-  patchNamespace(obj)
+  local o = patchNamespace(obj);
+  if o.kind == 'Deployment' then
+    o {
+      spec+: {
+        template+: {
+          spec+: {
+            tolerations+: [ {
+              key: 'node.kubernetes.io/not-ready',
+            } ],
+          },
+        },
+      },
+    }
+  else
+    o
   for obj in ccm_manifests
 ];
 
