@@ -40,6 +40,8 @@ spec:
           name: exoscale-cloud-controller-manager
       dnsPolicy: Default
       hostNetwork: true
+      nodeSelector:
+        node-role.kubernetes.io/control-plane: ''
       serviceAccountName: cloud-controller-manager
       tolerations:
         - effect: NoSchedule

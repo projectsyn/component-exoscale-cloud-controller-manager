@@ -85,6 +85,7 @@ local ccm = [
       spec+: {
         template+: {
           spec+: {
+            nodeSelector: params.nodeSelector,
             tolerations+: [ {
               key: 'node.kubernetes.io/not-ready',
             } ],

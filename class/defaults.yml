@@ -8,3 +8,6 @@ parameters:
     credentials:
       api_key: ?{vaultkv:${cluster:tenant}/${cluster:name}/exoscale/ccm/access_key}
       api_secret: ?{vaultkv:${cluster:tenant}/${cluster:name}/exoscale/ccm/secret_key}
+
+    nodeSelector:
+      node-role.kubernetes.io/control-plane: ""
