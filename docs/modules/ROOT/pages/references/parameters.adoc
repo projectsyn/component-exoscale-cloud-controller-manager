@@ -10,15 +10,15 @@ default:: `syn-exoscale-cloud-controller-manager`
 
 The namespace in which to deploy this component.
 
-== `manifests_version`
+== `images`
 
 [horizontal]
-type:: string
+type:: object
 default:: https://github.com/projectsyn/component-exoscale-cloud-controller-manager/blob/master/class/defaults.yml[See `class/defaults.yml`]
 
-The version of the Exoscale cloud-controller-manager manifests that are downloaded and rendered by the component.
+The container image to use for the Exoscale cloud-controller-manager.
 
-The manifests are downloaded from the https://github.com/exoscale/exoscale-cloud-controller-manager[exoscale/exoscale-cloud-controller-manager] GitHub repo.
+NOTE: The component uses the configured image tag to download the base manifests for the cloud-controller-manager deployment from the https://github.com/exoscale/exoscale-cloud-controller-manager[exoscale/exoscale-cloud-controller-manager] GitHub repo.
 
 == `credentials`
 

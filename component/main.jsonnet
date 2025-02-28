@@ -8,14 +8,14 @@ local isOpenShift =
   std.member([ 'openshift4', 'oke' ], inv.parameters.facts.distribution);
 
 local rbac_manifests =
-  std.parseYaml(kap.yaml_load_stream('%s/manifests/%s/rbac.yml' % [
+  std.parseYaml(kap.yaml_load_stream('%s/manifests/v%s/rbac.yml' % [
     base_directory,
-    params.manifests_version,
+    params.images.exoscale_cloud_controller_manager.tag,
   ]));
 local ccm_manifests =
-  std.parseYaml(kap.yaml_load_stream('%s/manifests/%s/ccm.yml' % [
+  std.parseYaml(kap.yaml_load_stream('%s/manifests/v%s/ccm.yml' % [
     base_directory,
-    params.manifests_version,
+    params.images.exoscale_cloud_controller_manager.tag,
   ]));
 
 local secret = kube.Secret('exoscale-credentials') {
@@ -89,6 +89,13 @@ local ccm = [
             tolerations+: [ {
               key: 'node.kubernetes.io/not-ready',
             } ],
+            containers: [
+              super.containers[0] {
+                image:
+                  '%(registry)s/%(repository)s:%(tag)s' %
+                  params.images.exoscale_cloud_controller_manager,
+              },
+            ],
           },
         },
       },

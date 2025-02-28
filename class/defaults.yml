@@ -3,7 +3,12 @@ parameters:
     =_metadata:
       multi_tenant: true
     namespace: syn-exoscale-cloud-controller-manager
-    manifests_version: v0.30.1
+
+    images:
+      exoscale_cloud_controller_manager:
+        registry: docker.io
+        repository: exoscale/cloud-controller-manager
+        tag: 0.30.1
 
     credentials:
       api_key: ?{vaultkv:${cluster:tenant}/${cluster:name}/exoscale/ccm/access_key}

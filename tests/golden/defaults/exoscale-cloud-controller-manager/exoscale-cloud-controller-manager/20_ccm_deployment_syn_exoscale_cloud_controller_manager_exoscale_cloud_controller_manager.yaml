@@ -35,7 +35,7 @@ spec:
                 secretKeyRef:
                   key: api-secret
                   name: exoscale-credentials
-          image: exoscale/cloud-controller-manager:latest
+          image: docker.io/exoscale/cloud-controller-manager:0.30.1
           imagePullPolicy: Always
           name: exoscale-cloud-controller-manager
       dnsPolicy: Default
