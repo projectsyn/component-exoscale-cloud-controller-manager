@@ -1,5 +1,13 @@
 parameters:
   kapitan:
+    dependencies:
+      - type: https
+        source: https://raw.githubusercontent.com/exoscale/exoscale-cloud-controller-manager/refs/tags/v${exoscale_cloud_controller_manager:images:exoscale_cloud_controller_manager:tag}/docs/examples/cloud-controller-manager-rbac.yml
+        output_path: ${_base_directory}/manifests/v${exoscale_cloud_controller_manager:images:exoscale_cloud_controller_manager:tag}/rbac.yml
+      - type: https
+        source: https://raw.githubusercontent.com/exoscale/exoscale-cloud-controller-manager/refs/tags/v${exoscale_cloud_controller_manager:images:exoscale_cloud_controller_manager:tag}/docs/examples/cloud-controller-manager.yml
+        output_path: ${_base_directory}/manifests/v${exoscale_cloud_controller_manager:images:exoscale_cloud_controller_manager:tag}/ccm.yml
+
     compile:
       - input_paths:
           - ${_base_directory}/component/app.jsonnet

@@ -3,3 +3,16 @@ parameters:
     =_metadata:
       multi_tenant: true
     namespace: syn-exoscale-cloud-controller-manager
+
+    images:
+      exoscale_cloud_controller_manager:
+        registry: docker.io
+        repository: exoscale/cloud-controller-manager
+        tag: 0.30.1
+
+    credentials:
+      api_key: ?{vaultkv:${cluster:tenant}/${cluster:name}/exoscale/ccm/access_key}
+      api_secret: ?{vaultkv:${cluster:tenant}/${cluster:name}/exoscale/ccm/secret_key}
+
+    nodeSelector:
+      node-role.kubernetes.io/control-plane: ""
