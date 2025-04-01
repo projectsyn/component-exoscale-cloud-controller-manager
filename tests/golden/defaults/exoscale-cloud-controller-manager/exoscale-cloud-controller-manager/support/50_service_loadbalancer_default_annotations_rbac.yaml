@@ -1,0 +1,45 @@
+syn-exoscale-cloud-controller-manager
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  annotations: {}
+  labels:
+    name: service-loadbalancer-default-annotations-manager
+  name: service-loadbalancer-default-annotations-manager
+  namespace: syn-exoscale-cloud-controller-manager
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  annotations: {}
+  labels:
+    name: espejote-service-loadbalancer-default-annotations
+  name: espejote:service-loadbalancer-default-annotations
+rules:
+  - apiGroups:
+      - ''
+    resources:
+      - services
+    verbs:
+      - get
+      - list
+      - watch
+      - update
+      - patch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  annotations: {}
+  labels:
+    name: espejote-service-loadbalancer-default-annotations
+  name: espejote:service-loadbalancer-default-annotations
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: espejote:service-loadbalancer-default-annotations
+subjects:
+  - kind: ServiceAccount
+    name: service-loadbalancer-default-annotations-manager
+    namespace: syn-exoscale-cloud-controller-manager

@@ -44,3 +44,20 @@ default:: `{node-role.kubernetes.io/control-plane: ""}`
 
 The node selector for the cloud-controller-manager deployment.
 Change this if you don't want to run the cloud-controller-manager on your cluster's control plane nodes.
+
+== `serviceLoadBalancerDefaultAnnotations`
+
+[horizontal]
+type:: dictionary
+default:: `{}`
+example::
++
+[source,yaml]
+----
+serviceLoadBalancerDefaultAnnotations:
+  service.beta.kubernetes.io/exoscale-loadbalancer-service-instancepool-id: 7026DCCB-39B4-451B-AB38-EB527CC836A4
+----
+
+Creates an espejote `ManagedResource` adding default annotations to Services with `spec.type: LoadBalancer`.
+
+Can be used to inject the `service.beta.kubernetes.io/exoscale-loadbalancer-service-instancepool-id` annotation which is required to create a LoadBalancer on Exoscale.

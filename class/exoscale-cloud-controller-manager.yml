@@ -16,4 +16,8 @@ parameters:
       - input_paths:
           - ${_base_directory}/component/main.jsonnet
         input_type: jsonnet
-        output_path: exoscale-cloud-controller-manager/
+        output_path: exoscale-cloud-controller-manager/manager
+      - input_paths:
+          - ${_base_directory}/component/service-loadbalancer-default-annotations.jsonnet
+        input_type: jsonnet
+        output_path: exoscale-cloud-controller-manager/support
