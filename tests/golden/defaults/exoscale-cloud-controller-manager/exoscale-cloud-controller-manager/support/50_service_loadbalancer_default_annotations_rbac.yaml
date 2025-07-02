@@ -1,5 +1,3 @@
-syn-exoscale-cloud-controller-manager
----
 apiVersion: v1
 kind: ServiceAccount
 metadata:
