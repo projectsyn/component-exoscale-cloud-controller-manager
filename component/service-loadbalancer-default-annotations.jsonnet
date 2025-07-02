@@ -75,7 +75,7 @@ local managedresource =
 
 if std.length(params.serviceLoadBalancerDefaultAnnotations) > 0 then
   {
-    '50_service_loadbalancer_default_annotations_rbac': [ namespace, sa, cr, crb ],
+    '50_service_loadbalancer_default_annotations_rbac': [ sa, cr, crb ],
     '50_service_loadbalancer_default_annotations_managedresource': [ jsonnetlib, managedresource ],
   }
 else
