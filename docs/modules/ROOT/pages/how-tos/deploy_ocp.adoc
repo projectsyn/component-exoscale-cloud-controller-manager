@@ -1,0 +1,54 @@
+= Deploy on existing OpenShift cluster
+
+This guide describes how to deploy exoscale CCM on an existing cluster.
+
+== Step-by-step guide
+
+. Deploy component-exoscale-cloud-controller-manager
+
+. Patch infrastructure config
++
+IMPORTANT: This step triggers node reboots to apply the Kubelet flag `--cloud-provider=external`.
++
+[source,bash]
+----
+kubectl --as cluster-admin patch infrastructure.config  cluster --type=merge -p '{"spec":{"platformSpec":{"external":{"platformName":"exoscale"},"type":"External"}}}'
+----
++
+[source,bash]
+----
+kubectl proxy &
+curl -XPATCH -H"Content-Type: application/merge-patch+json" http://localhost:8001/apis/config.openshift.io/v1/infrastructures/cluster/status -d '{"status":{"platform":"External","platformStatus":{"external":{"cloudControllerManager":{"state":"External"}},"type":"External"}}}'
+----
+
+. Taint nodes with `node.cloudprovider.kubernetes.io/uninitialized=true:NoSchedule`
++
+[source,bash]
+----
+kubectl --as cluster-admin taint node --all node.cloudprovider.kubernetes.io/uninitialized=true:NoSchedule
+----
+
+. Check if instance-type is applied
++
+[source,bash]
+----
+kubectl get nodes -ocustom-columns='NAME:.metadata.name,INSTANCE_TYPE:.metadata.labels.node\.kubernetes\.io/instance-type'
+----
++
+[source,bash]
+----
+NAME                 INSTANCE_TYPE
+infra-032a           standard.extra-large
+infra-7b8b           standard.extra-large
+infra-f8e1           standard.extra-large
+infra-fa1a           standard.extra-large
+master-03b1          standard.extra-large
+master-4386          standard.extra-large
+master-a662          standard.extra-large
+storage-11b9         cpu.extra-large
+storage-2764         cpu.extra-large
+storage-5d24         cpu.extra-large
+worker-e6e75-drjgz   standard.extra-large
+worker-e6e75-ikhpr   standard.extra-large
+worker-e6e75-nypky   standard.extra-large
+----
