@@ -1,10 +1,25 @@
 = Deploy on existing OpenShift cluster
 
-This guide describes how to deploy exoscale CCM on an existing cluster.
+This guide describes how to deploy the Exoscale cloud-controller-manager (CCM) on an existing cluster.
+
+We recommend that you migrate your cluster to use https://kb.vshn.ch/oc4/how-tos/exoscale/migrate_to_instancepool.html[instancepools for the worker nodes] before deploying the CCM.
+
+
+== Prerequisites
+* cluster-admin access to the cluster to migrate
+* `kubectl`
+* Write access to the cluster's Syn tenant repository
 
 == Step-by-step guide
 
-. Deploy component-exoscale-cloud-controller-manager
+. Deploy component-exoscale-cloud-controller-manager.
+Add the following to your cluster's Project Syn configuration:
++
+[source,yaml]
+----
+applications:
+  - exoscale-cloud-controller-manager
+----
 
 . Patch infrastructure config
 +
@@ -17,8 +32,8 @@ kubectl --as cluster-admin patch infrastructure.config  cluster --type=merge -p 
 +
 [source,bash]
 ----
-kubectl proxy &
-curl -XPATCH -H"Content-Type: application/merge-patch+json" http://localhost:8001/apis/config.openshift.io/v1/infrastructures/cluster/status -d '{"status":{"platform":"External","platformStatus":{"external":{"cloudControllerManager":{"state":"External"}},"type":"External"}}}'
+kubectl --as=cluster-admin patch infrastructure.config cluster --type=merge --subresource=status \
+  -p  '{"status":{"platform":"External","platformStatus":{"external":{"cloudControllerManager":{"state":"External"}},"type":"External"}}}'
 ----
 
 . Taint nodes with `node.cloudprovider.kubernetes.io/uninitialized=true:NoSchedule`
