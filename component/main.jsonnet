@@ -86,9 +86,15 @@ local ccm = [
         template+: {
           spec+: {
             nodeSelector: params.nodeSelector,
-            tolerations+: [ {
-              key: 'node.kubernetes.io/not-ready',
-            } ],
+            tolerations+: [
+              {
+                key: 'node.kubernetes.io/not-ready',
+              },
+              {
+                key: 'node-role.kubernetes.io/control-plane',
+                effect: 'NoSchedule',
+              },
+            ],
             containers: [
               super.containers[0] {
                 image:

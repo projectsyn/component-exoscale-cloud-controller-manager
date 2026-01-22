@@ -52,3 +52,5 @@ spec:
         - effect: NoSchedule
           key: node-role.kubernetes.io/master
         - key: node.kubernetes.io/not-ready
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/control-plane
