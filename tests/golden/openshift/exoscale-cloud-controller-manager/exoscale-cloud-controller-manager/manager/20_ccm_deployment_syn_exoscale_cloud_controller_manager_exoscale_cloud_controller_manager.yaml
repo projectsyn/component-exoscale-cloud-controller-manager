@@ -20,11 +20,6 @@ spec:
             - --leader-elect=true
             - --allow-untagged-cloud
           env:
-            - name: EXOSCALE_ZONE
-              valueFrom:
-                secretKeyRef:
-                  key: api-zone
-                  name: exoscale-credentials
             - name: EXOSCALE_API_KEY
               valueFrom:
                 secretKeyRef:
@@ -35,7 +30,7 @@ spec:
                 secretKeyRef:
                   key: api-secret
                   name: exoscale-credentials
-          image: docker.io/exoscale/cloud-controller-manager:0.30.1
+          image: docker.io/exoscale/cloud-controller-manager:0.34.0
           imagePullPolicy: Always
           name: exoscale-cloud-controller-manager
       dnsPolicy: Default
