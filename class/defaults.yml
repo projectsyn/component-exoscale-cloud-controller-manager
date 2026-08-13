@@ -8,7 +8,7 @@ parameters:
       exoscale_cloud_controller_manager:
         registry: docker.io
         repository: exoscale/cloud-controller-manager
-        tag: 0.34.0
+        tag: 0.34.1
 
     credentials:
       api_key: ?{vaultkv:${cluster:tenant}/${cluster:name}/exoscale/ccm/access_key}
